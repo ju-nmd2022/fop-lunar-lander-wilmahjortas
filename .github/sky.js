@@ -13,27 +13,27 @@ for (let i = 0; i < 1100; i++) {
 }
 
 let bigStarX = 100;
-let bigStarY = 100;
-let scaleStar = 1;
+let bigStarY = 200;
+let scaleStar = 0.4;
 
-function star() {
+function yellowStar() {
   noStroke();
   fill(250, 253, 15);
   triangle(
-    bigStarX + 100 * s,
-    bigStarY - 60 * s,
-    bigStarX + 200 * s,
-    bigStarY + 100 * s,
+    bigStarX + 100 * scaleStar,
+    bigStarY - 60 * scaleStar,
+    bigStarX + 200 * scaleStar,
+    bigStarY + 100 * scaleStar,
     bigStarX,
-    bigStarY + 100 * s
+    bigStarY + 100 * scaleStar
   );
   triangle(
-    bigStarX + 5 * s,
-    bigStarY - 5 * s,
-    bigStarX + 195 * s,
-    bigStarY - 10 * s,
-    bigStarX + 100 * s,
-    bigStarY + 150 * s
+    bigStarX + 5 * scaleStar,
+    bigStarY - 5 * scaleStar,
+    bigStarX + 195 * scaleStar,
+    bigStarY - 10 * scaleStar,
+    bigStarX + 100 * scaleStar,
+    bigStarY + 150 * scaleStar
   );
 }
 
@@ -121,17 +121,18 @@ function draw() {
     starAlpha[index] = starAlpha[index] + 0.02;
   }
 
+  yellowStar(bigStarX, bigStarY);
   moon(moonX, 100);
   ufo(x, ufoY);
 
   if (isGameActive) {
-    moonX = moonX - 4;
+    bigStarX = bigStarX - 4;
     ufoY = ufoY + velocity;
     velocity = velocity + acceleration;
     x = x + speed;
 
-    if (moonX < -100) {
-      moonX = width + 100;
+    if (bigStarX < -100) {
+      bigStarX = width + 100;
     }
 
     if (keyIsDown(38)) {
