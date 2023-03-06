@@ -98,10 +98,13 @@ function moon(x, y) {
 function startScreen() {
   background(0, 0, 0);
   fill(255, 255, 0);
-  rect(120, 150, 350, 200);
+  rect(60, 155, 500, 230);
   fill(255, 0, 255);
-  text("Press space to start game", 230, 245);
-  text("Use arrowkeys to land on the moon, watch out for the stars", 140, 270);
+  textSize(30);
+  text("Press space __ to start game.", 105, 225);
+  text("Use arrowkeys to land on the moon", 75, 265);
+  text("Watch out for the stars and land", 100, 305);
+  text("safely. Have a nice trip!", 155, 344);
 
   if (keyIsDown(32)) {
     x = 300;
@@ -121,7 +124,7 @@ function gameScreen() {
     starAlpha[index] = starAlpha[index] + 0.02;
   }
 
-  yellowStar(bigStarX, bigStarY, scaleStar);
+  yellowStar(bigStarX, bigStarY, 0.18);
   yellowStar(bigStarX + 200, bigStarY + 50, scaleStar);
   yellowStar(bigStarX + 350, bigStarY - 20, scaleStar);
   yellowStar(bigStarX + 120, bigStarY - 70, scaleStar);
@@ -169,6 +172,10 @@ function gameScreen() {
     isGameActive = false;
     state = "lose";
   }
+  if (velocity > 4 && ufoY > 395) {
+    isGameActive = false;
+    state = "lose";
+  }
 
   if (keyIsDown(38)) {
     velocity = velocity - 0.5;
@@ -184,11 +191,11 @@ function gameScreen() {
 function gameOverScreen() {
   background(0, 0, 0);
   fill(255, 0, 0);
-  rect(120, 150, 350, 200);
+  rect(60, 155, 500, 230);
   fill(0, 0, 0);
-  text("GAME OVER", 260, 240);
-  text("Press enter to try again", 230, 270);
-
+  textSize(30);
+  text("GAME OVER", 210, 260);
+  text("Press enter to try again", 150, 300);
   if (keyIsDown(13)) {
     state = "start";
   }
@@ -197,10 +204,11 @@ function gameOverScreen() {
 function winScreen() {
   background(0, 0, 0);
   fill(0, 255, 0);
-  rect(120, 130, 350, 200);
+  rect(60, 155, 500, 230);
   fill(0, 0, 0);
-  text("YOU WIN", 260, 220);
-  text("Press enter to try again", 225, 250);
+  textSize(30);
+  text("YOU WIN", 230, 260);
+  text("Press enter to try again", 150, 305);
 
   if (keyIsDown(13)) {
     state = "start";
