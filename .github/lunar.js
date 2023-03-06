@@ -1,22 +1,21 @@
-let starX = [];
-let starY = [];
-let starAlpha = [];
-
-for (let i = 0; i < 1100; i++) {
-  const x = Math.floor(Math.random() * width);
-  const y = Math.floor(Math.random() * height);
-  const alpha = Math.random();
-
-  starX.push(x);
-  starY.push(y);
-  starAlpha.push(alpha);
-}
-
 let bigStarX = 100;
-let bigStarY = 220;
-let scaleStar = 0.15;
+let bigStarY = 200;
+let scaleStar = 0.13;
 
-function yellowStar() {
+let moonX = 100;
+let ufoY = 100;
+let ufoX = 100;
+let velocity = 1;
+let acceleration = 0.2;
+let speed = 0;
+let isGameActive = false;
+
+let x = 100;
+let y = 100;
+let s = 1;
+let moonS = 2;
+
+function yellowStar(bigStarX, bigStarY, scaleStar) {
   noStroke();
   fill(250, 253, 15);
   triangle(
@@ -37,7 +36,7 @@ function yellowStar() {
   );
 }
 
-function ufo(x, y) {
+function ufo(x, y, s) {
   //spaceship;
   stroke(0, 0, 0);
   fill(0, 255, 0);
@@ -83,11 +82,6 @@ function ufo(x, y) {
   fill(80, 255, 60);
 }
 
-let x = 100;
-let y = 100;
-let s = 1;
-let moonS = 2;
-
 function moon(x, y) {
   fill(252, 238, 167);
   ellipse(x, y + 230 * moonS, 170 * moonS);
@@ -101,14 +95,6 @@ function moon(x, y) {
   ellipse(x + 8 * moonS, y + 160 * moonS, 24 * moonS, 18 * moonS);
 }
 
-let moonX = 100;
-let ufoY = 100;
-let ufoX = 100;
-let velocity = 1;
-let acceleration = 0.2;
-let speed = 0;
-let isGameActive = false;
-
 function startScreen() {
   background(0, 0, 0);
   fill(255, 255, 0);
@@ -118,6 +104,9 @@ function startScreen() {
   text("Use arrowkeys to land on the moon, watch out for the stars", 140, 270);
 
   if (keyIsDown(32)) {
+    x = 300;
+    velocity = 1;
+    ufoY = 30;
     state = "game";
   }
 }
@@ -132,37 +121,64 @@ function gameScreen() {
     starAlpha[index] = starAlpha[index] + 0.02;
   }
 
-  yellowStar(bigStarX, bigStarY);
+  yellowStar(bigStarX, bigStarY, scaleStar);
+  yellowStar(bigStarX + 200, bigStarY + 50, scaleStar);
+  yellowStar(bigStarX + 350, bigStarY - 20, scaleStar);
+  yellowStar(bigStarX + 120, bigStarY - 70, scaleStar);
+  yellowStar(bigStarX + 50, bigStarY + 100, scaleStar);
+  yellowStar(bigStarX + 350, bigStarY + 100, scaleStar);
   moon(moonX + 200, 85);
-  ufo(ufoX, ufoY);
+  ufo(x, ufoY, 0.7);
 
   if (isGameActive) {
     ufoY = ufoY + velocity;
     velocity = velocity + acceleration;
     x = x + speed;
-
-    if (keyIsDown(32)) {
-      isGameActive = true;
-    }
-    if (keyIsDown(38)) {
-      velocity = velocity - 0.5;
-    }
-    if (keyIsDown(39)) {
-      speed = 5;
-    } else if (keyIsDown(37)) {
-      speed = -5;
-    } else {
-      speed = 0;
-    }
-  }
-  /*     if (ufoY > 390 && ufoX < 160 && ufoX > 440) {
-      
-    }
   }
 
-  if (ufoY > 390 && ufoX > 160 && ufoX < 410) {
-    winScreen();
-  } */
+  if (keyIsDown(38)) {
+    isGameActive = true;
+  }
+  if ((ufoY > 395 && x < 180) || (ufoY > 395 && x > 430)) {
+    isGameActive = false;
+    state = "lose";
+  } else if (ufoY > 395) {
+    state = "win";
+  }
+  if (ufoY < 220 && ufoY > 190 && x > 90 && x < 135) {
+    isGameActive = false;
+    state = "lose";
+  }
+  if (ufoY < 270 && ufoY > 245 && x > 290 && x < 335) {
+    isGameActive = false;
+    state = "lose";
+  }
+  if (ufoY < 200 && ufoY > 170 && x > 440 && x < 490) {
+    isGameActive = false;
+    state = "lose";
+  }
+  if (ufoY < 150 && ufoY > 120 && x > 210 && x < 255) {
+    isGameActive = false;
+    state = "lose";
+  }
+  if (ufoY < 320 && ufoY > 290 && x > 140 && x < 190) {
+    isGameActive = false;
+    state = "lose";
+  }
+  if (ufoY < 320 && ufoY > 290 && x > 440 && x < 490) {
+    isGameActive = false;
+    state = "lose";
+  }
+
+  if (keyIsDown(38)) {
+    velocity = velocity - 0.5;
+  } else if (keyIsDown(39)) {
+    speed = 5;
+  } else if (keyIsDown(37)) {
+    speed = -5;
+  } else {
+    speed = 0;
+  }
 }
 
 function gameOverScreen() {
@@ -171,7 +187,11 @@ function gameOverScreen() {
   rect(120, 150, 350, 200);
   fill(0, 0, 0);
   text("GAME OVER", 260, 240);
-  text("Press space to try again", 230, 270);
+  text("Press enter to try again", 230, 270);
+
+  if (keyIsDown(13)) {
+    state = "start";
+  }
 }
 
 function winScreen() {
@@ -180,17 +200,38 @@ function winScreen() {
   rect(120, 130, 350, 200);
   fill(0, 0, 0);
   text("YOU WIN", 260, 220);
-  text("Press space to try again", 225, 250);
+  text("Press enter to try again", 225, 250);
+
+  if (keyIsDown(13)) {
+    state = "start";
+  }
 }
 
-let state = "start";
+//star blink
+let starX = [];
+let starY = [];
+let starAlpha = [];
+
+for (let i = 0; i < 1100; i++) {
+  const x = Math.floor(Math.random() * width);
+  const y = Math.floor(Math.random() * height);
+  const alpha = Math.random();
+
+  starX.push(x);
+  starY.push(y);
+  starAlpha.push(alpha);
+}
+
+let state = "game";
 
 function draw() {
   if (state === "start") {
     startScreen();
   } else if (state === "game") {
     gameScreen();
-  } else if (state === "result") {
+  } else if (state === "win") {
+    winScreen();
+  } else if (state === "lose") {
     gameOverScreen();
   }
 }
