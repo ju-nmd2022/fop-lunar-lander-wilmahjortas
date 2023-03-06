@@ -112,9 +112,9 @@ function startScreen() {
   text("safely. Have a nice trip!", 155, 300);
 
   if (keyIsDown(32)) {
-    x = 300;
+    x = 100;
     velocity = 1;
-    ufoY = 30;
+    ufoY = 100;
     state = "game";
   }
 }
