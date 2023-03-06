@@ -1,3 +1,8 @@
+function setup() {
+  createCanvas(600, 450);
+  frameRate(30);
+}
+
 let bigStarX = 100;
 let bigStarY = 200;
 let scaleStar = 0.13;
@@ -98,13 +103,13 @@ function moon(x, y) {
 function startScreen() {
   background(0, 0, 0);
   fill(255, 255, 0);
-  rect(60, 155, 500, 230);
+  rect(50, 110, 500, 230);
   fill(255, 0, 255);
   textSize(30);
-  text("Press space __ to start game.", 105, 225);
-  text("Use arrowkeys to land on the moon", 75, 265);
-  text("Watch out for the stars and land", 100, 305);
-  text("safely. Have a nice trip!", 155, 344);
+  text("Press space __ to start game.", 105, 180);
+  text("Use arrowkeys to land on the moon", 65, 220);
+  text("Watch out for the stars and land", 100, 260);
+  text("safely. Have a nice trip!", 155, 300);
 
   if (keyIsDown(32)) {
     x = 300;
@@ -191,11 +196,11 @@ function gameScreen() {
 function gameOverScreen() {
   background(0, 0, 0);
   fill(255, 0, 0);
-  rect(60, 155, 500, 230);
+  rect(50, 110, 500, 230);
   fill(0, 0, 0);
   textSize(30);
-  text("GAME OVER", 210, 260);
-  text("Press enter to try again", 150, 300);
+  text("GAME OVER", 210, 220);
+  text("Press enter to try again", 150, 260);
   if (keyIsDown(13)) {
     state = "start";
   }
@@ -204,11 +209,11 @@ function gameOverScreen() {
 function winScreen() {
   background(0, 0, 0);
   fill(0, 255, 0);
-  rect(60, 155, 500, 230);
+  rect(50, 110, 500, 230);
   fill(0, 0, 0);
   textSize(30);
-  text("YOU WIN", 230, 260);
-  text("Press enter to try again", 150, 305);
+  text("YOU WIN", 230, 220);
+  text("Press enter to try again", 150, 260);
 
   if (keyIsDown(13)) {
     state = "start";
@@ -221,8 +226,8 @@ let starY = [];
 let starAlpha = [];
 
 for (let i = 0; i < 1100; i++) {
-  const x = Math.floor(Math.random() * width);
-  const y = Math.floor(Math.random() * height);
+  const x = Math.floor(Math.random() * 600);
+  const y = Math.floor(Math.random() * 450);
   const alpha = Math.random();
 
   starX.push(x);
